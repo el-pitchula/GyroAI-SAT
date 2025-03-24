@@ -17,6 +17,7 @@ Para rodar o projeto localmente:
 git clone https://github.com/seu-usuario/GyroAI-SAT.git
 cd GyroAI-SAT
 pip install -r requirements.txt
+```
 
 ## 🚀 Como Usar
 
