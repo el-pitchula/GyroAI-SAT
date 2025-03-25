@@ -44,8 +44,3 @@ Este projeto está sob a licença MIT.
 2. Adicionar um `README.md` bem formatado e um `.gitignore` adequado.
 3. Criar scripts básicos no `src/` e `notebooks/` para estruturar o código.
 4. Manter a documentação sempre atualizada no `docs/`.
-
----
-
-Com essa estrutura, seu projeto será fácil de entender, modificar e contribuir! 🚀 Se precisar de mais detalhes ou ajustes, me avise!
-
