@@ -88,6 +88,9 @@ def stop_simulation():
 def reset_simulation():
     print("Simulação resetada")
 
+def create_graph():
+    print("Criação de gráfico")
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Testando Controles")
