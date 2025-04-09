@@ -36,11 +36,3 @@ Rodar a simulação:
 ## 📜 Licença
 
 Este projeto está sob a licença MIT.
-
----
-
-### **📌 Próximos Passos**
-1. Criar o repositório no GitHub e fazer o primeiro commit.
-2. Adicionar um `README.md` bem formatado e um `.gitignore` adequado.
-3. Criar scripts básicos no `src/` e `notebooks/` para estruturar o código.
-4. Manter a documentação sempre atualizada no `docs/`.
