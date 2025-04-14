@@ -1,4 +1,5 @@
-from manim_imports_ext import *
+#from manim_imports_ext import *
+# pip install manimlib
 
 
 def q_mult(q1, q2):
