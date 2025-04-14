@@ -159,7 +159,7 @@ def create_main_window():
     frame_left.pack(side=tk.LEFT, fill=tk.Y)
 
     frame_middle = tk.Frame(root, width=400, padx=10, pady=10)
-    frame_middle.pack(side=tk.LEFT, fill=tk.Y, expand=True, fill=tk.BOTH)
+    frame_middle.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)  # Corrigido aqui
 
     frame_right = tk.Frame(root, width=400, padx=10, pady=10)
     frame_right.pack(side=tk.RIGHT, fill=tk.Y)
