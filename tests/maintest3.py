@@ -130,13 +130,13 @@ def create_data_display(parent):
 
     update_data()
 
-# --- neural_network.py ---
+# neural_network.py
 def create_neural_network_visualization(parent):
     """(Futuro) Visualização da rede neural."""
     label = tk.Label(parent, text="Visualização da Rede Neural (Futuro)", font=("Arial", 10))
     label.pack(pady=10)
 
-# --- info_panels.py ---
+# info_panels.py
 def create_info_panel(parent, title, content):
     """Cria um painel de informações."""
     frame = tk.Frame(parent, bd=2, relief=tk.GROOVE)
@@ -148,13 +148,13 @@ def create_info_panel(parent, title, content):
     content_label = tk.Label(frame, text=content, justify=tk.LEFT)
     content_label.pack(padx=5, pady=5)
 
-# --- main.py ---
+# main.py
 def create_main_window():
     root = tk.Tk()
     root.title("GyroAI-SAT")
     root.geometry("1200x800")  # Tamanho inicial da janela
 
-    # --- Frames Principais ---
+    # frames Principais
     frame_left = tk.Frame(root, width=400, padx=10, pady=10)
     frame_left.pack(side=tk.LEFT, fill=tk.Y)
 
@@ -164,7 +164,7 @@ def create_main_window():
     frame_right = tk.Frame(root, width=400, padx=10, pady=10)
     frame_right.pack(side=tk.RIGHT, fill=tk.Y)
 
-    # --- Controles de Simulação (frame_left) ---
+    # controles de Simulação (frame_left)
     controls_label = tk.Label(frame_left, text="Controles de Simulação", font=("Arial", 12, "bold"))
     controls_label.pack(pady=(10, 0))
 
