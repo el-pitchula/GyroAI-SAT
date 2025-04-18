@@ -231,10 +231,6 @@ def create_main_window():
     notebook.add(tab_algoritmo_ia, text="Algoritmo da IA")
     create_info_panel(tab_algoritmo_ia, "Algoritmo da IA", "Detalhes do algoritmo da IA...")
 
-    tab_simulacoes = ttk.Frame(notebook)
-    notebook.add(tab_simulacoes, text="Simulações")
-    create_info_panel(tab_simulacoes, "Simulações", "Explicações sobre os elementos das simulações...")
-
     tab_gimbal_lock = ttk.Frame(notebook)
     notebook.add(tab_gimbal_lock, text="Gimbal Lock")
     create_info_panel(tab_gimbal_lock, "Gimbal Lock", "Representação visual e explicação do gimbal lock...")
