@@ -6,6 +6,14 @@ import numpy as np
 from database.db_setup import create_db # BD
 from database.db_handler import iniciar_simulacao, salvar_dado_gyro, salvar_quaternion, salvar_log_serial # BD
 
+'''  carregar dados reais (ESA)
+from utils.dados_reais_loader import carregar_dados_esa
+
+def create_main_window():
+    dados = carregar_dados_esa()
+    print("✅ Dados reais carregados:", dados.shape)
+'''
+
 # --- simulation.py ---
 def start_simulation():
     print("Simulação iniciada")
