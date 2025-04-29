@@ -1,4 +1,4 @@
-# database/db_setup.py
+# Criação e estrutura das tabelas
 import sqlite3
 
 def create_db():
@@ -48,6 +48,26 @@ def create_db():
             sim_id INTEGER,
             tempo REAL,
             valor TEXT,
+            FOREIGN KEY (sim_id) REFERENCES simulacoes(id)
+        );
+    """)
+
+    # Tabela 5 - Dados orbitais (posição, velocidade, Euler)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS dados_orbitais (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            sim_id INTEGER,
+            tempo REAL,
+            x_km REAL,
+            y_km REAL,
+            z_km REAL,
+            vx_km_s REAL,
+            vy_km_s REAL,
+            vz_km_s REAL,
+            roll_deg REAL,
+            pitch_deg REAL,
+            yaw_deg REAL,
+            tipo_dado TEXT DEFAULT 'simulado',
             FOREIGN KEY (sim_id) REFERENCES simulacoes(id)
         );
     """)

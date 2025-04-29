@@ -1,7 +1,7 @@
-# database/db_handler.py
+# Inserção de dados nas tabelas
 import sqlite3
 
-DB_NAME = "gyroai.db"
+DB_NAME = "gyroai.db" # SQLite Viewer extention
 
 def iniciar_simulacao(descricao="Simulação"):
     conn = sqlite3.connect(DB_NAME)
@@ -39,5 +39,18 @@ def salvar_log_serial(sim_id, tempo, valor):
         INSERT INTO serial_log (sim_id, tempo, valor)
         VALUES (?, ?, ?)
     """, (sim_id, tempo, valor))
+
+def salvar_dado_orbital(sim_id, tempo, x, y, z, vx, vy, vz, roll, pitch, yaw, tipo="simulado"):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO dados_orbitais (
+            sim_id, tempo, x_km, y_km, z_km,
+            vx_km_s, vy_km_s, vz_km_s,
+            roll_deg, pitch_deg, yaw_deg,
+            tipo_dado
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (sim_id, tempo, x, y, z, vx, vy, vz, roll, pitch, yaw, tipo))
+
     conn.commit()
     conn.close()
