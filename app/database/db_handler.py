@@ -1,10 +1,15 @@
 # Inserção de dados nas tabelas
-import sqlite3
+# database/db_handler.py
 
-DB_NAME = "gyroai.db" # SQLite Viewer extention
+import sqlite3
+import os
+
+# Define o caminho absoluto para o arquivo do banco de dados na raiz do projeto
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))              # Caminho de onde está este arquivo
+DB_PATH = os.path.abspath(os.path.join(BASE_DIR, '../../gyroai.db'))  # Sobe dois níveis até a raiz
 
 def iniciar_simulacao(descricao="Simulação"):
-    conn = sqlite3.connect(DB_NAME)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("INSERT INTO simulacoes (descricao) VALUES (?)", (descricao,))
     conn.commit()
@@ -13,7 +18,7 @@ def iniciar_simulacao(descricao="Simulação"):
     return sim_id
 
 def salvar_dado_gyro(sim_id, tempo, omega_x, omega_y, omega_z):
-    conn = sqlite3.connect(DB_NAME)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO dados_gyro (sim_id, tempo, omega_x, omega_y, omega_z)
@@ -23,7 +28,7 @@ def salvar_dado_gyro(sim_id, tempo, omega_x, omega_y, omega_z):
     conn.close()
 
 def salvar_quaternion(sim_id, tempo, q0, q1, q2, q3):
-    conn = sqlite3.connect(DB_NAME)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO dados_quaternions (sim_id, tempo, q0, q1, q2, q3)
@@ -33,15 +38,17 @@ def salvar_quaternion(sim_id, tempo, q0, q1, q2, q3):
     conn.close()
 
 def salvar_log_serial(sim_id, tempo, valor):
-    conn = sqlite3.connect(DB_NAME)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO serial_log (sim_id, tempo, valor)
         VALUES (?, ?, ?)
     """, (sim_id, tempo, valor))
+    conn.commit()
+    conn.close()
 
 def salvar_dado_orbital(sim_id, tempo, x, y, z, vx, vy, vz, roll, pitch, yaw, tipo="simulado"):
-    conn = sqlite3.connect(DB_NAME)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO dados_orbitais (
@@ -51,6 +58,5 @@ def salvar_dado_orbital(sim_id, tempo, x, y, z, vx, vy, vz, roll, pitch, yaw, ti
             tipo_dado
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (sim_id, tempo, x, y, z, vx, vy, vz, roll, pitch, yaw, tipo))
-
     conn.commit()
     conn.close()

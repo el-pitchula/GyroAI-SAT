@@ -1,8 +1,14 @@
 # Criação e estrutura das tabelas
+
 import sqlite3
+import os
+
+# Define caminho absoluto para criar o banco na raiz do projeto
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.abspath(os.path.join(BASE_DIR, '../../gyroai.db'))
 
 def create_db():
-    conn = sqlite3.connect("gyroai.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     # Tabela 1 - Simulações
@@ -52,7 +58,7 @@ def create_db():
         );
     """)
 
-    # Tabela 5 - Dados orbitais (posição, velocidade, Euler)
+    # Tabela 5 - Dados orbitais (posição, velocidade, ângulos de Euler)
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS dados_orbitais (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -1,0 +1,22 @@
+lembrar de refratar codigo main e testar o banco de dados antes e depois na interface
+
+GyroAI-SAT/
+├── database/
+│   ├── __pycache__/
+│   ├── __init__.py
+│   ├── db_handler.py
+│   └── db_setup.py
+├── interface/
+│   └── (vazia)
+├── notebooks/
+│   ├── data/
+│   │   ├── dados_iss_propagados.xlsx
+│   │   ├── dados_orbitais.xlsx
+│   │   └── dados_orientacao_IA.xlsx
+│   ├── 1_gerar_dados_iss.ipynb
+│   ├── dados_gyroai_generator.ipynb
+│   ├── gyroai.db (resultado de "importar_dados_tle.ipynb")
+│   └── importar_dados_tle.ipynb (arquivo que acabamos de fazer)
+├── gyroai.db (gerado por "1_gerar_dados_iss.ipynb" um arquivo de teste anterior ao "importar_dados_tle.ipynb")
+├── main.py
+└── README.md
