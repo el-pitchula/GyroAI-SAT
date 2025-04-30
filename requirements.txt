@@ -1,0 +1,6 @@
+tk
+matplotlib
+numpy
+pandas
+scipy
+sgp4
