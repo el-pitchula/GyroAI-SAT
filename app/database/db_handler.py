@@ -59,3 +59,32 @@ def salvar_dado_orbital(sim_id, tempo, x, y, z, vx, vy, vz, roll, pitch, yaw, ti
     """, (sim_id, tempo, x, y, z, vx, vy, vz, roll, pitch, yaw, tipo))
     conn.commit()
     conn.close()
+
+def obter_dados_orbitais(sim_id):
+    """Lê os dados orbitais do banco para uma simulação específica."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT tempo, x_km, y_km, z_km,
+               vx_km_s, vy_km_s, vz_km_s,
+               roll_deg, pitch_deg, yaw_deg
+        FROM dados_orbitais
+        WHERE sim_id = ?
+        ORDER BY tempo ASC
+    """, (sim_id,))
+    
+    rows = cursor.fetchall()
+    conn.close()
+
+    # Converte os dados em dicionários
+    dados = []
+    for row in rows:
+        dados.append({
+            'tempo': row[0],
+            'x_km': row[1], 'y_km': row[2], 'z_km': row[3],
+            'vx_km_s': row[4], 'vy_km_s': row[5], 'vz_km_s': row[6],
+            'roll_deg': row[7], 'pitch_deg': row[8], 'yaw_deg': row[9]
+        })
+
+    return dados
