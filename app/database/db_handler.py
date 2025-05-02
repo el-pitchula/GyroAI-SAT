@@ -98,3 +98,23 @@ def obter_ultimo_sim_id():
     result = cursor.fetchone()
     conn.close()
     return result[0] if result and result[0] else None
+
+def obter_ultimo_sim_id():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT MAX(id) FROM simulacoes")
+    result = cursor.fetchone()[0]
+    conn.close()
+    return result
+
+def obter_ultimo_sim_id_com_dados():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT DISTINCT sim_id FROM dados_orbitais
+        ORDER BY sim_id DESC
+        LIMIT 1
+    """)
+    result = cursor.fetchone()
+    conn.close()
+    return result[0] if result else None

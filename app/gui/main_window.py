@@ -4,11 +4,8 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 
-from database.db_setup import create_db
-from database.db_handler import (
-    iniciar_simulacao,
-    obter_dados_orbitais  # <- Função nova para acessar os dados reais
-)
+from app.database.db_setup import create_db
+from app.database.db_handler import iniciar_simulacao, obter_dados_orbitais
 
 # --- Funções de Simulação ---
 def start_simulation():
@@ -130,7 +127,9 @@ def create_info_panel(parent, title, content):
 # --- MAIN GUI ---
 def create_main_window():
     create_db()
-    sim_id = iniciar_simulacao("Simulação GUI com dados reais")
+
+    from app.database.db_handler import obter_ultimo_sim_id_com_dados
+    sim_id = obter_ultimo_sim_id_com_dados()  # <-- use o sim_id que já tem dados
 
     root = tk.Tk()
     root.title("GyroAI-SAT")
