@@ -1,5 +1,4 @@
 # Inserção de dados nas tabelas
-# database/db_handler.py
 
 import sqlite3
 import os
