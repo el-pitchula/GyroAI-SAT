@@ -46,13 +46,13 @@ def create_angular_velocity_plot(parent):
 
     def update_plot():
         nonlocal t, omega
-        t = np.linspace(0, 10, 100) + (t[-1] - t[0]) + 0.1
+        t += 0.1  # deslocamento no tempo
         omega = np.sin(t)
         line.set_data(t, omega)
-        ax.relim()
-        ax.autoscale_view()
+        ax.set_xlim(t[0], t[-1])
+        ax.set_ylim(-1.5, 1.5)
         canvas.draw_idle()
-        parent.after(50, update_plot)
+        parent.after(100, update_plot)
 
     update_plot()
 
@@ -76,15 +76,15 @@ def create_quaternion_plot(parent):
 
     def update_plot():
         nonlocal t, q0, q1
-        t = np.linspace(0, 10, 100) + (t[-1] - t[0]) + 0.1
+        t += 0.1
         q0 = np.cos(t / 2)
         q1 = np.sin(t / 2)
         line1.set_data(t, q0)
         line2.set_data(t, q1)
-        ax.relim()
-        ax.autoscale_view()
+        ax.set_xlim(t[0], t[-1])
+        ax.set_ylim(-1.5, 1.5)
         canvas.draw_idle()
-        parent.after(50, update_plot)
+        parent.after(100, update_plot)
 
     update_plot()
 
@@ -100,7 +100,6 @@ def create_data_display(parent, sim_id):
     data_display = tk.Label(frame, textvariable=data_text, wraplength=800, justify=tk.LEFT)
     data_display.pack(side=tk.LEFT)
 
-    # Obtemos todos os dados de uma vez
     dados = obter_dados_orbitais(sim_id)
     total = len(dados)
 
@@ -109,13 +108,13 @@ def create_data_display(parent, sim_id):
         return
 
     def update_data(i=[0]):
-        d = dados[i[0] % total]  # Simulação cíclica
+        d = dados[i[0] % total]
         text = f"t={d['tempo']:.0f}s | Pos: ({d['x_km']:.2f}, {d['y_km']:.2f}, {d['z_km']:.2f}) km | " \
                f"Vel: ({d['vx_km_s']:.2f}, {d['vy_km_s']:.2f}, {d['vz_km_s']:.2f}) km/s | " \
                f"Euler: ({d['roll_deg']:.2f}, {d['pitch_deg']:.2f}, {d['yaw_deg']:.2f})°"
         data_text.set(text)
         i[0] += 1
-        parent.after(500, update_data)  # Atualiza a cada 0.5 segundos
+        parent.after(500, update_data)
 
     update_data()
 
@@ -145,6 +144,7 @@ def create_main_window():
     frame_right = tk.Frame(root, width=400, padx=10, pady=10)
     frame_right.pack(side=tk.RIGHT, fill=tk.Y)
 
+    # --- Controles ---
     tk.Label(frame_left, text="Controles de Simulação", font=("Arial", 12, "bold")).pack(pady=(10, 0))
     tk.Button(frame_left, text="Iniciar Simulação", command=start_simulation).pack(pady=5, fill=tk.X)
     tk.Button(frame_left, text="Parar Simulação", command=stop_simulation).pack(pady=5, fill=tk.X)
@@ -152,27 +152,29 @@ def create_main_window():
     tk.Label(frame_left, text="Velocidade de Simulação:").pack(pady=(10, 0))
     tk.Scale(frame_left, from_=0.1, to=5.0, resolution=0.1, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
+    # --- Satélite Simulação ---
     tk.Label(frame_middle, text="Simulação Satélite (2D)", font=("Arial", 12, "bold")).pack(pady=(10, 0))
     canvas_sat = tk.Canvas(frame_middle, bg="white", height=200)
     canvas_sat.pack(pady=5, fill=tk.X)
     update_satellite_simulation(canvas_sat)
 
-    tk.Label(frame_middle, text="Simulação Giroscópio (3D)", font=("Arial", 12, "bold")).pack(pady=(10, 0))
+    # --- Giroscópio Simulação ---
+    tk.Label(frame_middle, text="Giroscópio", font=("Arial", 12, "bold")).pack(pady=(10, 0))
     canvas_gyro = tk.Canvas(frame_middle, bg="white", height=200)
     canvas_gyro.pack(pady=5, fill=tk.X)
     update_gyroscope_simulation(canvas_gyro)
 
-    tk.Label(frame_middle, text="Gráficos", font=("Arial", 12, "bold")).pack(pady=(10, 0))
-    create_angular_velocity_plot(frame_middle)
-    create_quaternion_plot(frame_middle)
+    # --- Plot Velocidade Angular ---
+    create_angular_velocity_plot(frame_right)
 
-    tk.Label(frame_right, text="Dados da Simulação", font=("Arial", 12, "bold")).pack(pady=(10, 0))
+    # --- Plot Quaternions ---
+    create_quaternion_plot(frame_right)
+
+    # --- Dados Banco de Dados ---
     create_data_display(frame_right, sim_id)
-
-    create_info_panel(frame_right, "Informações do Sistema",
-                      "Este painel exibe dados simulados do satélite, incluindo posição, velocidade e ângulos de Euler.")
 
     root.mainloop()
 
+# --- Executar ---
 if __name__ == "__main__":
     create_main_window()
