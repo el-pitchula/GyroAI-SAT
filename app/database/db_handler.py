@@ -5,7 +5,9 @@ import os
 
 # Define o caminho absoluto para o arquivo do banco de dados na raiz do projeto
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))              # Caminho de onde está este arquivo
-DB_PATH = os.path.abspath(os.path.join(BASE_DIR, '../../gyroai.db'))  # Sobe dois níveis até a raiz
+# Garante que sempre pega o caminho da raiz do projeto, subindo até a pasta GyroAI-SAT
+PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
+DB_PATH = os.path.join(PROJECT_ROOT, "gyroai.db")
 
 def iniciar_simulacao(descricao="Simulação"):
     conn = sqlite3.connect(DB_PATH)

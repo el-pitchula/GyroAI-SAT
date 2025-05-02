@@ -1,4 +1,3 @@
-# app/gui/main_window.py
 import tkinter as tk
 from tkinter import ttk
 import matplotlib.pyplot as plt
