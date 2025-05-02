@@ -5,7 +5,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 
 from app.database.db_setup import create_db
-from app.database.db_handler import iniciar_simulacao, obter_dados_orbitais
+from app.database.db_handler import iniciar_simulacao, obter_dados_orbitais, obter_ultimo_sim_id_com_dados
 
 # --- Funções de Simulação ---
 def start_simulation():
@@ -88,7 +88,7 @@ def create_quaternion_plot(parent):
 
     update_plot()
 
-# --- Dados GUI (agora vindo do banco!) ---
+# --- Dados GUI (Banco de dados) ---
 def create_data_display(parent, sim_id):
     frame = tk.Frame(parent)
     frame.pack(pady=10, fill=tk.X)
@@ -97,23 +97,25 @@ def create_data_display(parent, sim_id):
     data_label.pack(side=tk.LEFT)
 
     data_text = tk.StringVar()
-    data_display = tk.Label(frame, textvariable=data_text)
+    data_display = tk.Label(frame, textvariable=data_text, wraplength=800, justify=tk.LEFT)
     data_display.pack(side=tk.LEFT)
 
+    # Obtemos todos os dados de uma vez
     dados = obter_dados_orbitais(sim_id)
     total = len(dados)
 
+    if total == 0:
+        data_text.set("Nenhum dado disponível para esse sim_id.")
+        return
+
     def update_data(i=[0]):
-        if total == 0:
-            data_text.set("Nenhum dado no banco.")
-            return
-        d = dados[i[0] % total]
+        d = dados[i[0] % total]  # Simulação cíclica
         text = f"t={d['tempo']:.0f}s | Pos: ({d['x_km']:.2f}, {d['y_km']:.2f}, {d['z_km']:.2f}) km | " \
                f"Vel: ({d['vx_km_s']:.2f}, {d['vy_km_s']:.2f}, {d['vz_km_s']:.2f}) km/s | " \
                f"Euler: ({d['roll_deg']:.2f}, {d['pitch_deg']:.2f}, {d['yaw_deg']:.2f})°"
         data_text.set(text)
         i[0] += 1
-        parent.after(200, update_data)
+        parent.after(500, update_data)  # Atualiza a cada 0.5 segundos
 
     update_data()
 
@@ -127,9 +129,8 @@ def create_info_panel(parent, title, content):
 # --- MAIN GUI ---
 def create_main_window():
     create_db()
-
-    from app.database.db_handler import obter_ultimo_sim_id_com_dados
-    sim_id = obter_ultimo_sim_id_com_dados()  # <-- use o sim_id que já tem dados
+    sim_id = obter_ultimo_sim_id_com_dados()
+    print(f"SIM ID encontrado: {sim_id}")
 
     root = tk.Tk()
     root.title("GyroAI-SAT")
@@ -151,7 +152,6 @@ def create_main_window():
     tk.Label(frame_left, text="Velocidade de Simulação:").pack(pady=(10, 0))
     tk.Scale(frame_left, from_=0.1, to=5.0, resolution=0.1, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
-    # Meio
     tk.Label(frame_middle, text="Simulação Satélite (2D)", font=("Arial", 12, "bold")).pack(pady=(10, 0))
     canvas_sat = tk.Canvas(frame_middle, bg="white", height=200)
     canvas_sat.pack(pady=5, fill=tk.X)
@@ -162,30 +162,17 @@ def create_main_window():
     canvas_gyro.pack(pady=5, fill=tk.X)
     update_gyroscope_simulation(canvas_gyro)
 
-    tk.Label(frame_middle, text="Gráfico Velocidade Angular", font=("Arial", 10, "bold")).pack(pady=(10, 0))
+    tk.Label(frame_middle, text="Gráficos", font=("Arial", 12, "bold")).pack(pady=(10, 0))
     create_angular_velocity_plot(frame_middle)
-    tk.Label(frame_middle, text="Gráfico Quaternions", font=("Arial", 10, "bold")).pack(pady=(10, 0))
     create_quaternion_plot(frame_middle)
 
-    # Direita
-    tk.Label(frame_right, text="Dados da Órbita", font=("Arial", 12, "bold")).pack(pady=(10, 0))
+    tk.Label(frame_right, text="Dados da Simulação", font=("Arial", 12, "bold")).pack(pady=(10, 0))
     create_data_display(frame_right, sim_id)
 
-    notebook = ttk.Notebook(frame_right)
-    notebook.pack(pady=10, fill=tk.BOTH, expand=True)
-    tab_modelagem = ttk.Frame(notebook)
-    tab_alg = ttk.Frame(notebook)
-    tab_gimbal = ttk.Frame(notebook)
-    tab_func = ttk.Frame(notebook)
+    create_info_panel(frame_right, "Informações do Sistema",
+                      "Este painel exibe dados simulados do satélite, incluindo posição, velocidade e ângulos de Euler.")
 
-    notebook.add(tab_modelagem, text="Modelagem")
-    notebook.add(tab_alg, text="Algoritmo IA")
-    notebook.add(tab_gimbal, text="Gimbal Lock")
-    notebook.add(tab_func, text="Funcionamento")
+    root.mainloop()
 
-    create_info_panel(tab_modelagem, "Modelagem Matemática", "Conteúdo aqui...")
-    create_info_panel(tab_alg, "Algoritmo IA", "Conteúdo IA...")
-    create_info_panel(tab_gimbal, "Gimbal Lock", "Explicação Gimbal Lock...")
-    create_info_panel(tab_func, "Funcionamento Geral", "Resumo e etapas do projeto.")
-
-    return root
+if __name__ == "__main__":
+    create_main_window()
