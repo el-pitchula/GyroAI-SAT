@@ -19,7 +19,7 @@ GyroAI-SAT é um projeto que utiliza Inteligência Artificial para estabilizaç�
 - 🔄 Ângulos de Euler (em graus): roll_deg, pitch_deg, yaw_deg
 - 🕒 Timestamp: timestamp
 
-## ⚡ Instalação
+## Instalação
 Para rodar o projeto localmente:
 ```bash
 git clone https://github.com/seu-usuario/GyroAI-SAT.git
@@ -27,7 +27,7 @@ cd GyroAI-SAT
 pip install -r requirements.txt
 ```
 
-## 🚀 Como Usar
+## Como Usar
 
     Pré-processar os dados:
 
