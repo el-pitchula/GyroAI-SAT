@@ -11,6 +11,7 @@ from app.database.db_handler import iniciar_simulacao, obter_dados_orbitais, obt
 def start_simulation():
     print("Simulação iniciada")
 
+
 def stop_simulation():
     print("Simulação parada")
 
@@ -55,6 +56,7 @@ def create_angular_velocity_plot(parent):
         parent.after(100, update_plot)
 
     update_plot()
+
 
 def create_quaternion_plot(parent):
     fig, ax = plt.subplots(figsize=(4, 2))
