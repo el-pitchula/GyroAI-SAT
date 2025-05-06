@@ -118,3 +118,17 @@ def obter_ultimo_sim_id_com_dados():
     result = cursor.fetchone()
     conn.close()
     return result[0] if result else None
+
+def obter_quaternions(sim_id):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT tempo, q0, q1, q2, q3 FROM dados_quaternions
+        WHERE sim_id = ?
+        ORDER BY tempo ASC
+    """, (sim_id,))
+    rows = cursor.fetchall()
+    conn.close()
+
+    return [{'tempo': r[0], 'q0': r[1], 'q1': r[2], 'q2': r[3], 'q3': r[4]} for r in rows]
+

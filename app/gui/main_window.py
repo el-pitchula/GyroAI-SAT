@@ -5,7 +5,13 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 
 from app.database.db_setup import create_db
-from app.database.db_handler import iniciar_simulacao, obter_dados_orbitais, obter_ultimo_sim_id_com_dados
+from app.database.db_handler import (
+    iniciar_simulacao,
+    obter_dados_orbitais,
+    obter_ultimo_sim_id_com_dados,
+    obter_quaternions
+)
+
 
 # --- Funções de Simulação ---
 def start_simulation():
@@ -58,35 +64,52 @@ def create_angular_velocity_plot(parent):
     update_plot()
 
 
-def create_quaternion_plot(parent):
-    fig, ax = plt.subplots(figsize=(4, 2))
-    ax.set_title("Evolução dos Quaternions")
+def create_quaternion_plot(parent, sim_id):
+    from app.database.db_handler import obter_quaternions
+    dados = obter_quaternions(sim_id)
+    if not dados:
+        print("❌ Nenhum dado de quaternions encontrado.")
+        return
+
+    fig, ax = plt.subplots(figsize=(5, 2.5))
+    ax.set_title("Quaternions (do banco de dados)")
     ax.set_xlabel("Tempo")
     ax.set_ylabel("Valor")
     ax.grid()
 
-    t = np.linspace(0, 10, 100)
-    q0 = np.cos(t / 2)
-    q1 = np.sin(t / 2)
-    line1, = ax.plot(t, q0, label="q0")
-    line2, = ax.plot(t, q1, label="q1")
+    t = [d['tempo'] for d in dados]
+    q0 = [d['q0'] for d in dados]
+    q1 = [d['q1'] for d in dados]
+    q2 = [d['q2'] for d in dados]
+    q3 = [d['q3'] for d in dados]
+
+    line0, = ax.plot([], [], label="q0", color='blue')
+    line1, = ax.plot([], [], label="q1", color='orange')
+    line2, = ax.plot([], [], label="q2", color='green')
+    line3, = ax.plot([], [], label="q3", color='red')
     ax.legend()
 
     canvas = FigureCanvasTkAgg(fig, master=parent)
     canvas.get_tk_widget().pack(pady=10, fill=tk.X)
     canvas.draw()
 
-    def update_plot():
-        nonlocal t, q0, q1
-        t += 0.1
-        q0 = np.cos(t / 2)
-        q1 = np.sin(t / 2)
-        line1.set_data(t, q0)
-        line2.set_data(t, q1)
-        ax.set_xlim(t[0], t[-1])
-        ax.set_ylim(-1.5, 1.5)
+    def update_plot(i=[0]):
+        n = len(t)
+        window = 50
+        start = max(0, i[0] - window)
+
+        line0.set_data(t[start:i[0]], q0[start:i[0]])
+        line1.set_data(t[start:i[0]], q1[start:i[0]])
+        line2.set_data(t[start:i[0]], q2[start:i[0]])
+        line3.set_data(t[start:i[0]], q3[start:i[0]])
+
+        if i[0] > 1:
+            ax.set_xlim(t[start], t[i[0]-1])
+            ax.set_ylim(-1.1, 1.1)
+
         canvas.draw_idle()
-        parent.after(100, update_plot)
+        i[0] = (i[0] + 1) % n
+        parent.after(200, update_plot)
 
     update_plot()
 
@@ -170,7 +193,7 @@ def create_main_window():
     create_angular_velocity_plot(frame_right)
 
     # --- Plot Quaternions ---
-    create_quaternion_plot(frame_right)
+    create_quaternion_plot(frame_right, sim_id)
 
     # --- Dados Banco de Dados ---
     create_data_display(frame_right, sim_id)
