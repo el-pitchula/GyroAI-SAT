@@ -38,4 +38,4 @@ to-do:
 - implementar sistema de usuario para salvar dados
 - sistema de alerta e botoes para a IA (envias documentação latex com o planejamento do treinamento da IA)
 - normalização\filtro (pre-processamento num geral)
-- fazer a interface receber comandos simples de IA
+- fazer a interface receber comandos simples de IA (como sou leiga não sei se isso é possivel ou se o proprio pre-processamento faz isso) para garantir desde já que a interface está respondendo e entendendo a IA para não acumular problemas futuramente
