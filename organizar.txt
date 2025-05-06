@@ -1,0 +1,39 @@
+GyroAI-SAT/
+├── app/
+│   ├── database/
+│   │   ├── __init__.py
+│   │   ├── db_handler.py
+│   │   └── db_setup.py
+│   ├── gui/
+│   │   ├── __init__.py
+│   │   ├── data_display.py
+│   │   ├── info_panels.py
+│   │   ├── main_window.py
+│   │   ├── neural_network.py
+│   │   ├── plots.py
+│   │   └── simulation.py
+│   └── utils/
+│       └── (vazio)
+├── tests/
+│   └── (vazio)
+├── notebooks/
+│   ├── data/
+│   │   ├── dados_iss_propagados.xlsx
+│   │   ├── dados_orbitais.xlsx
+│   │   └── dados_orientacao_IA.xlsx
+│   ├── 1_gerar_dados_iss.ipynb
+│   ├── dados_gyroai_generator.ipynb
+│   └── importar_dados_tle.ipynb (arquivo que fez o banco de dados no sqlite)
+├── gyroai.db
+├── main.py
+└── README.md
+
+to-do:
+- velocidade angular funcionando
+- botoes funcionais
+- sat 3d sim
+
+- gyro 3D sim
+
+- implementar sistema de usuario para salvar dados
+- sistema de alerta e botoes para a IA (envias documentação latex com o planejamento do treinamento da IA)
