@@ -13,11 +13,11 @@ GyroAI-SAT é um projeto que utiliza Inteligência Artificial para estabilizaç�
 
 ## O arquivo Excel contém os seguintes dados por amostra temporal:
 
-🛰️ Posição (km): x_km, y_km, z_km
-🚀 Velocidade (km/s): vx_km_s, vy_km_s, vz_km_s
-🧭 Orientação (quaternions): q0, q1, q2, q3
-🔄 Ângulos de Euler (em graus): roll_deg, pitch_deg, yaw_deg
-🕒 Timestamp: timestamp
+- 🛰️ Posição (km): x_km, y_km, z_km
+- 🚀 Velocidade (km/s): vx_km_s, vy_km_s, vz_km_s
+- 🧭 Orientação (quaternions): q0, q1, q2, q3
+- 🔄 Ângulos de Euler (em graus): roll_deg, pitch_deg, yaw_deg
+- 🕒 Timestamp: timestamp
 
 ## ⚡ Instalação
 Para rodar o projeto localmente:
