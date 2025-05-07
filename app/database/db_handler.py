@@ -132,3 +132,132 @@ def obter_quaternions(sim_id):
 
     return [{'tempo': r[0], 'q0': r[1], 'q1': r[2], 'q2': r[3], 'q3': r[4]} for r in rows]
 
+    
+    
+'''
+import sqlite3
+import os
+
+# Define o caminho absoluto para o banco de dados na raiz do projeto
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
+DB_PATH = os.path.join(PROJECT_ROOT, "gyroai.db")
+
+def iniciar_simulacao(descricao="Simulação"):
+    """Insere uma nova simulação e retorna seu ID."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO simulacoes (descricao) VALUES (?)", (descricao,))
+    conn.commit()
+    sim_id = cursor.lastrowid
+    conn.close()
+    return sim_id
+
+def salvar_dado_gyro(sim_id, tempo, omega_x, omega_y, omega_z):
+    """Salva dados do giroscópio para uma simulação específica."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO dados_gyro (sim_id, tempo, omega_x, omega_y, omega_z)
+        VALUES (?, ?, ?, ?, ?)
+    """, (sim_id, tempo, omega_x, omega_y, omega_z))
+    conn.commit()
+    conn.close()
+
+def salvar_quaternion(sim_id, tempo, q0, q1, q2, q3):
+    """Salva dados de quaternions."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO dados_quaternions (sim_id, tempo, q0, q1, q2, q3)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (sim_id, tempo, q0, q1, q2, q3))
+    conn.commit()
+    conn.close()
+
+def salvar_log_serial(sim_id, tempo, valor):
+    """Salva um registro de log da serial."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO serial_log (sim_id, tempo, valor)
+        VALUES (?, ?, ?)
+    """, (sim_id, tempo, valor))
+    conn.commit()
+    conn.close()
+
+def salvar_dado_orbital(sim_id, tempo, x, y, z, vx, vy, vz, roll, pitch, yaw, tipo="simulado"):
+    """Salva dados orbitais simulados ou reais."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO dados_orbitais (
+            sim_id, tempo, x_km, y_km, z_km,
+            vx_km_s, vy_km_s, vz_km_s,
+            roll_deg, pitch_deg, yaw_deg,
+            tipo_dado
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (sim_id, tempo, x, y, z, vx, vy, vz, roll, pitch, yaw, tipo))
+    conn.commit()
+    conn.close()
+
+def obter_dados_orbitais(sim_id):
+    """Obtém todos os dados orbitais ordenados pelo tempo para um sim_id."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT tempo, x_km, y_km, z_km,
+               vx_km_s, vy_km_s, vz_km_s,
+               roll_deg, pitch_deg, yaw_deg
+        FROM dados_orbitais
+        WHERE sim_id = ?
+        ORDER BY tempo ASC
+    """, (sim_id,))
+    rows = cursor.fetchall()
+    conn.close()
+
+    return [
+        {
+            'tempo': r[0],
+            'x_km': r[1], 'y_km': r[2], 'z_km': r[3],
+            'vx_km_s': r[4], 'vy_km_s': r[5], 'vz_km_s': r[6],
+            'roll_deg': r[7], 'pitch_deg': r[8], 'yaw_deg': r[9]
+        }
+        for r in rows
+    ]
+
+def obter_quaternions(sim_id):
+    """Obtém todos os quaternions ordenados pelo tempo para um sim_id."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT tempo, q0, q1, q2, q3 FROM dados_quaternions
+        WHERE sim_id = ?
+        ORDER BY tempo ASC
+    """, (sim_id,))
+    rows = cursor.fetchall()
+    conn.close()
+    return [{'tempo': r[0], 'q0': r[1], 'q1': r[2], 'q2': r[3], 'q3': r[4]} for r in rows]
+
+def obter_ultimo_sim_id():
+    """Obtém o último ID de simulação inserido."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT MAX(id) FROM simulacoes")
+    result = cursor.fetchone()[0]
+    conn.close()
+    return result
+
+def obter_ultimo_sim_id_com_dados():
+    """Obtém o último sim_id que possui dados orbitais registrados."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT DISTINCT sim_id FROM dados_orbitais
+        ORDER BY sim_id DESC
+        LIMIT 1
+    """)
+    result = cursor.fetchone()
+    conn.close()
+    return result[0] if result else None
+'''
