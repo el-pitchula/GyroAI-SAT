@@ -4,6 +4,174 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from app.database.db_handler import (
     obter_quaternions,
+    obter_dados_orbitais,
+    obter_ultimo_sim_id_com_dados
+)
+
+class GyroAISimplified:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("GyroAI Viewer")
+        self.root.geometry("1200x800")
+
+        self.sim_id = obter_ultimo_sim_id_com_dados()
+        self.running = False
+        self.index = 0
+        self.speed_var = tk.DoubleVar(value=1.0)
+
+        self.quat_data = obter_quaternions(self.sim_id)
+        self.orbit_data = obter_dados_orbitais(self.sim_id)
+
+        self.build_ui()
+
+    def build_ui(self):
+        control_frame = tk.Frame(self.root)
+        control_frame.pack(pady=10, fill=tk.X)
+
+        tk.Button(control_frame, text="Iniciar", command=self.start).pack(side=tk.LEFT, padx=5)
+        tk.Button(control_frame, text="Parar", command=self.stop).pack(side=tk.LEFT, padx=5)
+        tk.Button(control_frame, text="Resetar", command=self.reset).pack(side=tk.LEFT, padx=5)
+        tk.Button(control_frame, text="Rodar IA", command=self.run_ai).pack(side=tk.LEFT, padx=5)
+
+        tk.Label(control_frame, text="Velocidade:").pack(side=tk.LEFT, padx=5)
+        tk.Scale(control_frame, from_=0.5, to=5.0, resolution=0.1,
+                 orient=tk.HORIZONTAL, variable=self.speed_var, length=150).pack(side=tk.LEFT)
+
+        self.status_label = tk.Label(control_frame, text="Status: OK", fg="green")
+        self.status_label.pack(side=tk.RIGHT, padx=10)
+
+        self.monitor = tk.Text(self.root, height=5, bg="black", fg="lime")
+        self.monitor.pack(fill=tk.X, padx=10, pady=5)
+
+        plot_frame = tk.Frame(self.root)
+        plot_frame.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+        self.plot_quaternion(plot_frame)
+        self.plot_angular_velocity(plot_frame)
+
+    def plot_quaternion(self, parent):
+        fig, ax = plt.subplots(figsize=(6, 3))
+        ax.set_title("Quaternions")
+        ax.set_xlabel("Tempo")
+        ax.set_ylabel("Valor")
+        ax.grid()
+
+        self.t = [d['tempo'] for d in self.quat_data]
+        self.q0 = [d['q0'] for d in self.quat_data]
+        self.q1 = [d['q1'] for d in self.quat_data]
+        self.q2 = [d['q2'] for d in self.quat_data]
+        self.q3 = [d['q3'] for d in self.quat_data]
+
+        self.line0, = ax.plot([], [], label="q0")
+        self.line1, = ax.plot([], [], label="q1")
+        self.line2, = ax.plot([], [], label="q2")
+        self.line3, = ax.plot([], [], label="q3")
+        ax.legend()
+
+        self.canvas_q = FigureCanvasTkAgg(fig, master=parent)
+        self.canvas_q.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        self.ax_q = ax
+
+    def plot_angular_velocity(self, parent):
+        fig, ax = plt.subplots(figsize=(6, 3))
+        ax.set_title("Velocidade Angular (Roll)")
+        ax.set_xlabel("Tempo")
+        ax.set_ylabel("deg")
+        ax.grid()
+
+        self.t_w = [d['tempo'] for d in self.orbit_data]
+        self.w = [d['roll_deg'] for d in self.orbit_data]
+
+        self.line_w, = ax.plot([], [], label="Roll")
+        ax.legend()
+
+        self.canvas_w = FigureCanvasTkAgg(fig, master=parent)
+        self.canvas_w.get_tk_widget().pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
+        self.ax_w = ax
+
+    def update_plot(self):
+        n = len(self.t)
+        nw = len(self.t_w)
+        if not self.running or n == 0 or nw == 0:
+            return
+
+        i = self.index % n
+        iw = self.index % nw
+        window = 50
+        start = max(0, i - window)
+
+        self.line0.set_data(self.t[start:i], self.q0[start:i])
+        self.line1.set_data(self.t[start:i], self.q1[start:i])
+        self.line2.set_data(self.t[start:i], self.q2[start:i])
+        self.line3.set_data(self.t[start:i], self.q3[start:i])
+        self.ax_q.set_xlim(self.t[start], self.t[i])
+        self.ax_q.set_ylim(-1.1, 1.1)
+        self.canvas_q.draw_idle()
+
+        self.line_w.set_data(self.t_w[start:iw], self.w[start:iw])
+        self.ax_w.set_xlim(self.t_w[start], self.t_w[iw])
+        self.ax_w.set_ylim(min(self.w)-5, max(self.w)+5)
+        self.canvas_w.draw_idle()
+
+        self.log_serial(i)
+        self.check_gimbal_lock(i)
+
+        self.index += 1
+        self.root.after(int(1000 / self.speed_var.get()), self.update_plot)
+
+    def start(self):
+        if not self.running:
+            self.running = True
+            self.log("▶️ Iniciado")
+            self.update_plot()
+
+    def stop(self):
+        self.running = False
+        self.log("⏸️ Parado")
+
+    def reset(self):
+        self.index = 0
+        self.monitor.delete("1.0", tk.END)
+        self.log("🔄 Resetado")
+
+    def run_ai(self):
+        self.log("[IA] Executando IA... (placeholder)")
+
+    def log(self, msg):
+        self.monitor.insert(tk.END, msg + "\n")
+        self.monitor.see(tk.END)
+
+    def log_serial(self, i):
+        if i < len(self.t):
+            qtext = f"t={self.t[i]:.0f}s | q=({self.q0[i]:.3f}, {self.q1[i]:.3f}, {self.q2[i]:.3f}, {self.q3[i]:.3f})"
+            self.log(qtext)
+
+    def check_gimbal_lock(self, i):
+        if i < len(self.t_w):
+            yaw = self.w[i]
+            if abs(yaw) > 85:
+                self.status_label.config(text="Alerta: Gimbal Lock!", fg="red")
+            else:
+                self.status_label.config(text="Status: OK", fg="green")
+
+def create_main_window():
+    root = tk.Tk()
+    app = GyroAISimplified(root)
+    return root
+
+if __name__ == "__main__":
+    create_main_window().mainloop()
+
+
+
+
+'''
+import tkinter as tk
+from tkinter import ttk
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from app.database.db_handler import (
+    obter_quaternions,
     obter_ultimo_sim_id_com_dados
 )
 
@@ -121,7 +289,7 @@ def create_main_window():
 
 if __name__ == "__main__":
     create_main_window().mainloop()
-
+'''
 
 '''
 import tkinter as tk
