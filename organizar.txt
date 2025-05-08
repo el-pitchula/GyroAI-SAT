@@ -29,13 +29,19 @@ GyroAI-SAT/
 └── README.md
 
 to-do:
-- velocidade angular funcionando
-- botoes funcionais
-- sat 3d sim
-
-- gyro 3D sim
-
-- implementar sistema de usuario para salvar dados
-- sistema de alerta e botoes para a IA (envias documentação latex com o planejamento do treinamento da IA)
+- sistema de alerta e botoes para a IA (enviar documentação latex com o planejamento do treinamento da IA)
 - normalização\filtro (pre-processamento num geral)
 - fazer a interface receber comandos simples de IA (como sou leiga não sei se isso é possivel ou se o proprio pre-processamento faz isso) para garantir desde já que a interface está respondendo e entendendo a IA para não acumular problemas futuramente
+
+prioridades:
+- plots
+- serial
+- Sim e AI buttons
+
+ajustes: 
+- plot: acumulo de info e reto (mais fluido)
+- falta plot de velocidade angular
+- o monitos serial é para mostrar os dados em tempo real (quaternios, velocidade, posição... o q for possivel), n o terminal
+- mais diversidade de botões pra IA (lembre-se do objetivo do projeto)
+- adicionar espaço para a visualisação do status de alerta para o gimbal lock.
+a interface precisa ser robusta em informação
