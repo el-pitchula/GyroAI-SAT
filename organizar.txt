@@ -40,3 +40,10 @@ prioridades:
 ajustes: 
 plot: 
     - acumulo de info e reto (mais fluido)
+
+
+GyroAI-SAT/
+├── notebooks/
+│   ├── data/
+│   └── GyroAI-SAT-v1.ipynb
+└── README.md
