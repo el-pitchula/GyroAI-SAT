@@ -19,6 +19,15 @@ GyroAI-SAT é um projeto que utiliza Inteligência Artificial para estabilizaç�
 - 🔄 Ângulos de Euler (em graus): roll_deg, pitch_deg, yaw_deg
 - 🕒 Timestamp: timestamp
 
+## Pipeline:
+
+    📥 Carrega os dados de orientação (quaternions e ângulos de Euler);
+    🔧 Pré-processa esses dados (normaliza, cria janelas temporais);
+    🧠 Usa os dados para treinar uma IA (LSTM);
+    📊 Retorna previsões de risco de Gimbal Lock (ok, alerta, gimbal_lock).
+
+Ou seja, você entrega dados TLE → ele gera o risco em tempo real.
+
 ## Instalação
 Para rodar o projeto localmente:
 ```bash
