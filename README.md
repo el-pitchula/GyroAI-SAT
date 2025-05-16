@@ -3,23 +3,8 @@
 ## Descrição
 GyroAI-SAT é um projeto que utiliza Inteligência Artificial para estabilização de satélites e mitigação do gimbal lock. O modelo de IA é treinado para prever e corrigir falhas de orientação, garantindo um controle mais eficiente.
 
-## 📂 Estrutura do Projeto
-- `docs/` → Documentação completa do projeto (LaTeX, diagramas, referências)
-- `src/` → Código-fonte principal, incluindo processamento de dados, modelagem de IA e simulação
-- `notebooks/` → Notebooks para análise e experimentação
-- `data/` → Dados utilizados para treino e validação (não versionados)
-- `tests/` → Scripts de testes automatizados
-- `requirements.txt` → Dependências do projeto
+## O arquivo Excel(.xlsx) contém os seguintes dados por amostra temporal:
 
-## O arquivo Excel contém os seguintes dados por amostra temporal:
-
-- 🛰️ Posição (km): x_km, y_km, z_km
-- 🚀 Velocidade (km/s): vx_km_s, vy_km_s, vz_km_s
-- 🧭 Orientação (quaternions): q0, q1, q2, q3
-- 🔄 Ângulos de Euler (em graus): roll_deg, pitch_deg, yaw_deg
-- 🕒 Timestamp: timestamp
-
-## (atualização do arquivo .xlsx):
 | Coluna   | Significado                                                    |
 | -------- | -------------------------------------------------------------- |
 | `tempo`  | Instante da amostra                                            |
@@ -28,7 +13,6 @@ GyroAI-SAT é um projeto que utiliza Inteligência Artificial para estabilizaç�
 | `pitch`  | Ângulo em torno do eixo Y (**principal causa do Gimbal Lock**) |
 | `yaw`    | Ângulo em torno do eixo Z                                      |
 | `status` | Rótulo (ok, alerta, gimbal\_lock) gerado automaticamente       |
-
 
 ## Pipeline:
 
