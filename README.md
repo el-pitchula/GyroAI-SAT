@@ -19,6 +19,17 @@ GyroAI-SAT é um projeto que utiliza Inteligência Artificial para estabilizaç�
 - 🔄 Ângulos de Euler (em graus): roll_deg, pitch_deg, yaw_deg
 - 🕒 Timestamp: timestamp
 
+## (atualização do arquivo .xlsx):
+| Coluna   | Significado                                                    |
+| -------- | -------------------------------------------------------------- |
+| `tempo`  | Instante da amostra                                            |
+| `q0..q3` | Componentes do quaternion                                      |
+| `roll`   | Ângulo em torno do eixo X                                      |
+| `pitch`  | Ângulo em torno do eixo Y (**principal causa do Gimbal Lock**) |
+| `yaw`    | Ângulo em torno do eixo Z                                      |
+| `status` | Rótulo (ok, alerta, gimbal\_lock) gerado automaticamente       |
+
+
 ## Pipeline:
 
 - 📥 Carrega os dados de orientação (quaternions e ângulos de Euler);
