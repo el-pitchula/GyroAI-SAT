@@ -33,13 +33,13 @@ pip install -r requirements.txt
 
 ## Como Usar
 
-    Pré-processar os dados:
+Pré-processar os dados:
 
-python src/preprocessing.py
+    python src/preprocessing.py
 
 Treinar o modelo de IA:
 
-python src/model.py
+    python src/model.py
 
 Rodar a simulação:
 
