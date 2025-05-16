@@ -7,7 +7,7 @@
 
 ## 🔭 Overview
 
-GyroAI-SAT é um projeto de Inteligência Artificial para estabilização de satélites e mitigação do gimbal lock. O modelo de IA é treinado para prever e corrigir falhas de orientação, garantindo um controle mais eficiente.
+GyroAI-SAT é um projeto de Inteligência Artificial para estabilização de satélites e mitigação do gimbal lock. O modelo de IA é treinado para prever e corrigir falhas de orientação, garantindo um controle mais eficiente (atualizar).
 
 ## 💻 Technologies
 
@@ -45,7 +45,7 @@ cd GyroAI-SAT
 pip install -r requirements.txt
 ```
 
-## Como Usar
+## Como Usar (atualizar)
 
 Pré-processar os dados:
 
