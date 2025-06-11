@@ -61,8 +61,13 @@ Rodar a simulação:
 
     python src/simulation.py
 
-## Estudo Completo
-Montei o estudo completo de cada parte do processo com os respectivos cálculos encontrados no notebook "modelagem.ipynb".
+## 📘 Estudo Completo
+Para os interessados em entender a fundo o funcionamento do sistema, incluindo toda a base matemática por trás das decisões de modelagem, o notebook [`modelagem.ipynb`](https://colab.research.google.com/drive/14xkAJb2e-92LwjhuEXTaQgWPzdYtDk8e#scrollTo=Sch4abQETB08) apresenta um estudo completo:
+
+- Derivações matemáticas e físicas
+- Cálculo de funções de transferência
+- Conversões entre TLE, quaternions e ângulos de Euler
+- Justificativas técnicas para o uso de redes LSTM
 
 ## 📜 Licença
 
