@@ -2,8 +2,7 @@
 
 
 <div align="center">
-  <strong>Detecção de Gimbal Lock em Satélites com IA</strong><br> 
-  <em>Uma abordagem baseada em TLE e Quaternions para previsão de anomalias de atitude<em>
+  <strong>Detecção de Gimbal Lock em Satélites com IA: Uma abordagem baseada em TLE e Quaternions para previsão de anomalias de atitude</strong><br> 
 </div>
 
 ## 🔭 Overview
