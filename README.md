@@ -8,7 +8,8 @@
 
 GyroAI-SAT é um projeto de inteligência artificial voltado para a detecção antecipada de Gimbal Lock em satélites. Utilizando dados orbitais reais (TLE), o sistema gera automaticamente representações de orientação (quaternions e ângulos de Euler) e classifica o estado de risco via rede neural LSTM.
 
-    Objetivo: Antecipar falhas críticas de orientação em tempo real, melhorando a estabilidade e controle de satélites.
+    Objetivo: Antecipar falhas críticas de orientação em tempo real, 
+    melhorando a estabilidade e controle de satélites.
 
 ## 💻 Technologies
 
