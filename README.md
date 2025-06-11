@@ -32,10 +32,10 @@ GyroAI-SAT é um projeto de inteligência artificial voltado para a detecção a
 
 ## Pipeline:
 
-- 📥 Carrega os dados de orientação (quaternions e ângulos de Euler);
-- 🔧 Pré-processa esses dados (normaliza, cria janelas temporais);
-- 🧠 Usa os dados para treinar uma IA (LSTM);
-- 📊 Retorna previsões de risco de Gimbal Lock (ok, alerta, gimbal_lock).
+- Carrega os dados de orientação (quaternions e ângulos de Euler);
+- Pré-processa esses dados (normaliza, cria janelas temporais);
+- Usa os dados para treinar uma IA (LSTM);
+- Retorna previsões de risco de Gimbal Lock (ok, alerta, gimbal_lock).
 
 Ou seja, você entrega dados TLE → ele gera o risco em tempo real.
 
@@ -60,6 +60,9 @@ Treinar o modelo de IA:
 Rodar a simulação:
 
     python src/simulation.py
+
+## Estudo Completo
+Montei o estudo completo de cada parte do processo com os respectivos cálculos encontrados no notebook "modelagem.ipynb".
 
 ## 📜 Licença
 

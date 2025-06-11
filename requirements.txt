@@ -1,6 +1,9 @@
-tk
-matplotlib
-numpy
-pandas
-scipy
-sgp4
+numpy>=1.23
+pandas>=1.5
+sgp4>=2.20
+scipy>=1.10
+scikit-learn>=1.2
+tensorflow>=2.12
+matplotlib>=3.7
+seaborn>=0.12
+openpyxl>=3.0  # para leitura/escrita de arquivos Excel
