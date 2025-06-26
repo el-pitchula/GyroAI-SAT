@@ -71,3 +71,5 @@ Para os interessados em entender a fundo o funcionamento do sistema, incluindo t
 ## 📜 Licença
 
 Este projeto está sob a licença MIT.
+
+⚠️ Este projeto encontra-se em processo de proteção de propriedade intelectual. Nenhuma parte dele pode ser reproduzida, distribuída ou modificada sem autorização prévia da autora. Direitos reservados. © 2025.
