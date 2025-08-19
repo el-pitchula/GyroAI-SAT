@@ -18,7 +18,7 @@ GyroAI-SAT é um projeto de inteligência artificial voltado para a detecção a
 
 [![Tec](https://skillicons.dev/icons?i=py,sklearn,tensorflow,matlab)](https://skillicons.dev)
 
-## Dados: o arquivo Excel(.xlsx) contém os seguintes dados por amostra temporal:
+## Dados: os arquivos Excel(.xlsx) contém os seguintes dados por amostra temporal:
 
 | Coluna   | Significado                                                    |
 | -------- | -------------------------------------------------------------- |
