@@ -75,5 +75,5 @@ Este projeto está sob a licença MIT.
 ⚠️ Este projeto encontra-se em processo de proteção de propriedade intelectual. Nenhuma parte dele pode ser reproduzida, distribuída ou modificada sem autorização prévia da autora. Direitos reservados. © 2025.
 
 ------------
-1- atualizar o uso e treino da IA (compactar/simplificar codigo)
+1- atualizar o uso e treino da IA (compactar/simplificar o codigo)
 2- adicionar arquivos MATLAB
