@@ -10,7 +10,7 @@ GyroAI-SAT é um projeto de inteligência artificial voltado para a detecção a
 
 > Objetivo: Antecipar falhas críticas de orientação em tempo real, melhorando a estabilidade e controle de satélites.
 
-## 💻 Technologies
+## Technologies
 
 - Python (.py)
 - Jupyter (.ipynb)
