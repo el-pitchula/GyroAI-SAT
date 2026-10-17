@@ -41,7 +41,7 @@ Ou seja, você entrega dados TLE → ele gera o risco em tempo real.
 ## Instalação
 Para rodar o projeto localmente:
 ```bash
-git clone https://github.com/seu-usuario/GyroAI-SAT.git
+git clone git clone https://github.com/el-pitchula/GyroAI-SAT.git
 cd GyroAI-SAT
 pip install -r requirements.txt
 ```
